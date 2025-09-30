@@ -1,0 +1,113 @@
+# README – ChainProof Security Simulation Code
+
+---
+
+## 1. Introduction
+This document provides an explanation of the `chainproof_demo.py` implementation.  
+The code simulates a **multi-layered cybersecurity system** designed to protect financial market infrastructures from supply chain attacks and abnormal trading activities.  
+The focus here is on **code-level functionality**, describing the purpose of each class, function, and the major logical flow.  
+
+---
+
+## 2. Code Structure Overview
+The code is organized into several classes and helper functions, each representing a different **security mechanism**:
+
+1. **`ShamirSecretSharing`** – Implements cryptographic quorum approval using Shamir’s Secret Sharing principles.  
+2. **`ZeroTrustNetwork`** – Models a Zero Trust Network Architecture (ZTNA) with access verification and micro-segmentation.  
+3. **`AIAnomalyDetector`** – Provides statistical anomaly detection on market trades.  
+4. **`ChainProofSystem`** – Integrates all components into a unified system.  
+5. **`simulate_attack_scenario()`** – Demonstrates end-to-end defense through multiple scenarios.  
+
+---
+
+## 3. Class Explanations
+
+### 3.1 ShamirSecretSharing
+**Purpose:**  
+Ensures that software updates cannot be approved by a single party.  
+
+**Key Methods:**  
+- `generate_shares(secret: str)` – Splits a signing key into multiple shares.  
+- `reconstruct_secret(provided_shares: Dict)` – Validates whether the threshold number of correct shares has been provided.  
+
+**Use in Simulation:**  
+Vendors and regulators must combine their shares to approve updates.  
+
+---
+
+### 3.2 ZeroTrustNetwork
+**Purpose:**  
+Implements Zero Trust principles – *“Never Trust, Always Verify.”*  
+
+**Key Methods:**  
+- `create_microsegment(segment_id, allowed_entities)` – Defines isolated network zones (e.g., vendors, exchanges, regulators).  
+- `verify_access(entity, target_segment, action)` – Validates every access attempt, logging both successful and blocked attempts.  
+
+**Use in Simulation:**  
+Ensures only authorized actors can propose or approve software updates.  
+
+---
+
+### 3.3 AIAnomalyDetector
+**Purpose:**  
+Detects suspicious trading activity using heuristic scoring.  
+
+**Parameters Monitored:**  
+- **Volume** of trades  
+- **Frequency** of trades  
+- **Price variance**  
+
+**Key Method:**  
+- `detect_anomaly(current_trade)` – Returns a Boolean flag and an anomaly score.  
+
+**Use in Simulation:**  
+Triggers a circuit breaker if trading behavior deviates significantly from normal ranges.  
+
+---
+
+### 3.4 ChainProofSystem
+**Purpose:**  
+Serves as the **main controller** that integrates all security modules.  
+
+**Key Responsibilities:**  
+- Initializes Zero Trust microsegments.  
+- Manages software update proposals and approvals.  
+- Logs updates and generates security reports.  
+- Monitors trading activity and activates the circuit breaker if anomalies are detected.  
+
+---
+
+### 3.5 simulate_attack_scenario()
+**Purpose:**  
+Provides a structured demonstration of the entire security workflow.  
+
+**Scenarios Demonstrated:**  
+1. **Legitimate software update** – passes Zero Trust checks and quorum approval.  
+2. **Malicious update attempt** – blocked due to insufficient cryptographic shares.  
+3. **Anomaly detection in trading** – normal trades pass, malicious trades are flagged.  
+4. **Security report generation** – summarizes access attempts, blocked actions, and circuit breaker status.  
+
+---
+
+## 4. Execution Flow
+1. **Initialization**: A `ChainProofSystem` object is created.  
+2. **Scenario 1**: A legitimate vendor update is proposed, verified, and approved.  
+3. **Scenario 2**: A compromised vendor attempts a malicious update, which is rejected.  
+4. **Scenario 3**: Both normal and malicious trades are simulated; anomalies trigger alerts.  
+5. **Final Report**: A summary of network activity, approvals, and anomaly detections is displayed.  
+
+---
+
+## 5. Logging and Outputs
+- **Access Logs**: Every access attempt (granted or denied) is recorded.  
+- **Update Logs**: Each update is marked as “approved” or “rejected,” along with approvers.  
+- **Trading Alerts**: Anomalies are flagged with scores and circuit breaker activation.  
+- **Security Report**: Consolidates statistics on blocked attempts, updates, and trading status.  
+
+---
+
+## 6. Conclusion
+The code illustrates how **cryptographic quorum mechanisms**, **Zero Trust access control**, and **AI-based anomaly detection** can be combined to mitigate supply chain risks in critical infrastructures.  
+Each class is modular and can be extended or replaced with more sophisticated implementations if required.  
+
+---
