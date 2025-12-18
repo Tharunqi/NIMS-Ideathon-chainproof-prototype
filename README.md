@@ -1,3 +1,3 @@
-#chainproof-prototype
+#Chainproof-Prototype
 
-A demo of the chainproof solution
+A Demo of the Chainproof Solution
