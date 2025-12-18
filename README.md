@@ -1,2 +1,2 @@
-# NIMS-Ideathon-chainproof-prototype
+#chainproof-prototype
 A demo of the chainproof solution
