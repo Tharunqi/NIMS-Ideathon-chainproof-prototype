@@ -1,18 +1,18 @@
 from fastapi import APIRouter
-from pydantic import BaseModel
 
-from app.api.routes_stream import policy
+from app.api.routes_stream import policy, last_anomaly
 
 router = APIRouter(tags=["monitor"])
-
-
-class ResetResponse(BaseModel):
-    ok: bool
 
 
 @router.get("/state/breaker")
 def get_breaker_state():
     return policy.get_state()
+
+
+@router.get("/debug/last_anomaly")
+def debug_last_anomaly():
+    return last_anomaly
 
 
 @router.get("/alerts/recent")
