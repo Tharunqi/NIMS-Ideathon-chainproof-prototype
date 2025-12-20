@@ -15,17 +15,21 @@ class TradeEvent:
     symbol: str
     price: float
     qty: int
-    side: str
+    side: str  # BUY / SELL
 
 
 class TradeSimulator:
     def __init__(self) -> None:
         self.scenario: Scenario = "normal"
+        self.paused: bool = False
         self._symbols = ["TCS", "INFY", "HDFCBANK", "RELIANCE", "ICICIBANK"]
         self._base_prices = {s: random.uniform(800, 3500) for s in self._symbols}
 
     def set_scenario(self, scenario: Scenario) -> None:
         self.scenario = scenario
+
+    def set_paused(self, paused: bool) -> None:
+        self.paused = paused
 
     def next_trade(self) -> TradeEvent:
         symbol = random.choice(self._symbols)
@@ -53,6 +57,9 @@ class TradeSimulator:
     async def run(self, emit_fn, tps: float = 8.0) -> None:
         interval = 1.0 / max(1.0, tps)
         while True:
+            if self.paused:
+                await asyncio.sleep(0.25)
+                continue
             trade = self.next_trade()
             await emit_fn(trade)
             await asyncio.sleep(interval)
