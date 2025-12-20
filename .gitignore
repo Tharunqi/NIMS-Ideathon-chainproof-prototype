@@ -14,3 +14,11 @@ venv/
 *.log
 *.sqlite
 *.db
+
+# ChainProof local artifacts
+chainproof_audit.db
+chainproof_audit.db-wal
+chainproof_audit.db-shm
+backend/chainproof_audit.db
+backend/chainproof_audit.db-wal
+backend/chainproof_audit.db-shm
