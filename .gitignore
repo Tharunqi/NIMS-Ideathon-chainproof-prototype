@@ -22,3 +22,8 @@ chainproof_audit.db-shm
 backend/chainproof_audit.db
 backend/chainproof_audit.db-wal
 backend/chainproof_audit.db-shm
+
+# local audit db
+backend/*.db
+backend/*.db-shm
+backend/*.db-wal
