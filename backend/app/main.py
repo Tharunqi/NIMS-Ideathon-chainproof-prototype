@@ -1,10 +1,12 @@
 import asyncio
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.routes_health import router as health_router
 from app.api.routes_monitor import router as monitor_router
-from app.api.routes_stream import router as stream_router, manager, simulator, enrich_trade
+from app.api.routes_stream import enrich_trade, manager, simulator
+from app.api.routes_stream import router as stream_router
 from app.core.config import settings
 from app.db.sqlite import AuditDB
 
@@ -43,7 +45,9 @@ async def startup():
                 "anomaly_score": payload["anomaly"]["score"],
                 "breaker_state": payload["breaker"]["state"],
                 "reasons": reasons_str,
-                "scenario": payload["anomaly"]["reasons"][0] if payload["anomaly"]["reasons"] else "unknown",
+                "scenario": payload["anomaly"]["reasons"][0]
+                if payload["anomaly"]["reasons"]
+                else "unknown",
             }
         )
 

@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-from app.api.routes_stream import policy, last_anomaly
+from app.api.routes_stream import last_anomaly, policy
 from app.db.sqlite import AuditDB
 
 router = APIRouter(tags=["monitor"])

@@ -101,7 +101,4 @@ class AuditDB:
             (int(limit),),
         )
         rows = cur.fetchall()
-        return [
-            {"ts": r[0], "action": r[1], "from_state": r[2], "to_state": r[3]}
-            for r in rows
-        ]
+        return [{"ts": r[0], "action": r[1], "from_state": r[2], "to_state": r[3]} for r in rows]

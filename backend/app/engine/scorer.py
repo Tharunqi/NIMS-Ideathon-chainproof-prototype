@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from typing import Dict, Any
+from typing import Any, Dict
 
 from app.features.build_features import FeatureBuilder
 from app.features.windows import WindowTrade

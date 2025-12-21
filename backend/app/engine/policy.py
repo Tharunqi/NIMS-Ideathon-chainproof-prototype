@@ -1,9 +1,8 @@
 from __future__ import annotations
 
 import time
-from dataclasses import dataclass, asdict
+from dataclasses import asdict, dataclass
 from typing import Any, Dict, List, Literal, Optional
-
 
 BreakerState = Literal["NORMAL", "WATCH", "HALT"]
 
@@ -88,7 +87,12 @@ class CircuitBreakerPolicy:
                     self.state = "NORMAL"
                     self.last_change_ts = now
                     self._watch_since = None
-                    event = {"type": "breaker", "action": "RESUME", "from": prev_state, "to": self.state}
+                    event = {
+                        "type": "breaker",
+                        "action": "RESUME",
+                        "from": prev_state,
+                        "to": self.state,
+                    }
                 else:
                     # extend a bit if still risky
                     self.cooldown_until_ts = now + 3.0
@@ -105,25 +109,42 @@ class CircuitBreakerPolicy:
                     self.state = "WATCH"
                     self.last_change_ts = now
                     self._watch_since = now
-                    event = {"type": "breaker", "action": "WATCH", "from": prev_state, "to": self.state}
+                    event = {
+                        "type": "breaker",
+                        "action": "WATCH",
+                        "from": prev_state,
+                        "to": self.state,
+                    }
                 else:
                     # already WATCH; if it persists too long, escalate
                     if self._watch_since and (now - self._watch_since) >= self.watch_grace_seconds:
                         self.state = "HALT"
                         self.last_change_ts = now
                         self.cooldown_until_ts = now + self.halt_seconds
-                        event = {"type": "breaker", "action": "HALT", "from": prev_state, "to": self.state}
+                        event = {
+                            "type": "breaker",
+                            "action": "HALT",
+                            "from": prev_state,
+                            "to": self.state,
+                        }
             else:
                 # score low, drop from WATCH to NORMAL
                 if self.state == "WATCH":
                     self.state = "NORMAL"
                     self.last_change_ts = now
                     self._watch_since = None
-                    event = {"type": "breaker", "action": "NORMALIZE", "from": prev_state, "to": self.state}
+                    event = {
+                        "type": "breaker",
+                        "action": "NORMALIZE",
+                        "from": prev_state,
+                        "to": self.state,
+                    }
 
         # record alert when score is meaningful
         if score >= self.watch_threshold:
-            self._alerts.append(Alert(ts=now, symbol=symbol, score=score, reasons=reasons, state=self.state))
+            self._alerts.append(
+                Alert(ts=now, symbol=symbol, score=score, reasons=reasons, state=self.state)
+            )
             if len(self._alerts) > self._max_alerts:
                 self._alerts = self._alerts[-self._max_alerts :]
 
